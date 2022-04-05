@@ -24,6 +24,7 @@ class Sprite{
     update(){ //atualiza os frame da posicao Y
         this.draw()
 
+        this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
         if (this.position.y + this.height + this.velocity.y >= canvas.height){
@@ -56,6 +57,8 @@ const enemy = new Sprite({ //Criacao do player e posicao
 })
 //enemy.draw() //Exibicao do enemy
 
+
+
 function animate(){
     window.requestAnimationFrame(animate)
     ctx.fillStyle = '#20C4FA'
@@ -66,3 +69,24 @@ function animate(){
 
 animate()
 
+window.addEventListener('keypress', (event) => {
+    switch (event.key) {
+        case 'd':
+            player.velocity.x = 4
+            break
+        case 'a':
+            player.velocity.x = -4
+            break
+    }
+    console.log(event)
+})
+window.addEventListener('keyup', (event) => {
+    switch (event.key) {
+        case 'd':
+            player.velocity.x = 0
+            break
+        case 'a':
+            player.velocity.x = 0
+            break
+    }
+})
