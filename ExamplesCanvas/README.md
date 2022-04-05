@@ -5,4 +5,4 @@ Exemplos para criacao de Column/Bar/Line/Area/Pie/Funnel/Financial/Scatter/Bubbl
 - [Canvas Charts](canvasjs.com/)
 
 
-!(https://canvasjs.com/wp-content/uploads/2021/02/canvasjs-logo-240x100-1.png)
+![Logo](https://canvasjs.com/wp-content/uploads/2021/02/canvasjs-logo-240x100-1.png)
