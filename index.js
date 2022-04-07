@@ -8,7 +8,7 @@ ctx.fillStyle = '#20C4FA' //Cor de fundo
 
 ctx.fillRect(0, 0, canvas.width, canvas.height) //Desenho da tela
 
-const gravity = 0.2
+const gravity = 0.3
 
 class Sprite{
     constructor({ position, velocity }) {
@@ -69,17 +69,31 @@ function animate(){
 
 animate()
 
-window.addEventListener('keypress', (event) => {
+window.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'd':
-            player.velocity.x = 4
+            player.velocity.x = 10
             break
         case 'a':
-            player.velocity.x = -4
+            player.velocity.x = -10
+            break
+        case 'w':
+            player.velocity.y = -7
+            break
+
+            
+        case 'ArrowLeft':
+            enemy.velocity.x = -10
+            break
+        case 'ArrowRight':
+            enemy.velocity.x = 10
+            break
+        case 'ArrowUp':
+            enemy.velocity.y = -7
             break
     }
-    console.log(event)
 })
+
 window.addEventListener('keyup', (event) => {
     switch (event.key) {
         case 'd':
@@ -87,6 +101,12 @@ window.addEventListener('keyup', (event) => {
             break
         case 'a':
             player.velocity.x = 0
+            break
+        case 'ArrowLeft':
+            enemy.velocity.x = 0
+            break
+        case 'ArrowRight':
+            enemy.velocity.x = 0
             break
     }
 })
