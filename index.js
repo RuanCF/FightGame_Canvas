@@ -10,30 +10,55 @@ ctx.fillRect(0, 0, canvas.width, canvas.height) //Desenho da tela
 
 const gravity = 0.3
 
-class Sprite{
-    constructor({ position, velocity }) {
+class Sprite {
+    constructor({
+        position,
+        velocity,
+        imageSrc
+    }) {
         this.position = position
         this.velocity = velocity
         this.height = 100
+        //this.image = new Image()
+        //this.image.src = imageSrc
     }
     draw() {
         ctx.fillStyle = 'red' //Define a cor do sprite
         ctx.fillRect(this.position.x, this.position.y, 50, this.height) //Define tamanho do sprite
+        //ctx.drawImage(this.image, this.position.x, this.position.y)
     }
 
-    update(){ //atualiza os frame da posicao Y
+    update() { //atualiza os frame da posicao Y
         this.draw()
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
-        if (this.position.y + this.height + this.velocity.y >= canvas.height){
+        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
             this.velocity.y = 0
         } else this.velocity.y += gravity
     }
-}
+} // << tranferir class Sprite para o classes.js
 
-const player = new Sprite({ //Criacao do player e posicao
+/*const background = new Sprite({
+    position: {
+      x: 0,
+      y: 0
+    },
+    imageSrc: './imgs/background.png'
+  })*/
+
+const shop = new Sprite({
+    position: {
+        x: 600,
+        y: 128
+    },
+    // imageSrc: './img/shop.png',
+    // scale: 2.75,
+    // framesMax: 6
+})
+
+const player = new Fighter({ //Criacao do player e posicao
     position: {
         x: 0,
         y: 0
@@ -45,7 +70,7 @@ const player = new Sprite({ //Criacao do player e posicao
 })
 //player.draw() //Exibicao do player na tela
 
-const enemy = new Sprite({ //Criacao do player e posicao
+const enemy = new Fighter({ //Criacao do player e posicao
     position: {
         x: 974,
         y: 0
@@ -64,62 +89,94 @@ const keys = {
     d: {
         pressed: false
     },
-    w: {
+
+    ArrowRight: {
+        pressed: false
+    },
+    ArrowLeft: {
         pressed: false
     }
 }
 
-function animate(){
+let lastKey
+
+function animate() {
     window.requestAnimationFrame(animate)
     ctx.fillStyle = '#20C4FA'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
+    background.update()
+    shop.update()
     player.update()
     enemy.update()
 
     player.velocity.x = 0
-    if (keys.a.pressed && lastKey === 'a') {
+    enemy.velocity.x = 0
+
+    /////////////////////
+    //movimento player
+    ////////////////////
+    if (keys.a.pressed && player.lastKey === 'a') {
         player.velocity.x = -5
-    } else if (keys.d.pressed && lastKey === 'd'){
+    } else if (keys.d.pressed && lastKey === 'd') {
         player.velocity.x = 5
+    }
+    
+    /////////////////////
+    //movimento inimigo
+    ////////////////////
+    if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+        enemy.velocity.x = -5
+    } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight'){
+
     }
 }
 
 animate()
 
 window.addEventListener('keydown', (event) => {
-    switch (event.key) {
-        case 'd':
-            player.velocity.x = 10
-            break
-        case 'a':
-            player.velocity.x = -10
-            break
-        case 'w':
-            player.velocity.y = -7
-            break
+    if (!player.dead) {
+        switch (event.key) {
+            case 'd':
+                //player.velocity.x = 10
+                keys.d.pressed = true
+                lastKey = 'd'
+                break
+            case 'a':
+                //player.velocity.x = -10
+                keys.a.pressed = true
+                lastKey = 'a'
+                break
+            case 'w':
+                //player.velocity.y = -7
+                player.velocity.y = -20
+                break
+        }
+    }
 
-            
-        case 'ArrowLeft':
-            enemy.velocity.x = -10
-            break
-        case 'ArrowRight':
-            enemy.velocity.x = 10
-            break
-        case 'ArrowUp':
-            enemy.velocity.y = -7
+    if (!enemy.dead) {
+        switch (event.key) {
+            case 'ArrowLeft':
+                enemy.velocity.x = -10
+                break
+            case 'ArrowRight':
+                enemy.velocity.x = 10
+                break
+            case 'ArrowUp':
+                enemy.velocity.y = -7
+                //ArrowDown atack
+        }
     }
 })
-
 window.addEventListener('keyup', (event) => {
     switch (event.key) {
         case 'd':
             keys.d.pressed = false
-            lastKey = 'd'
             break
         case 'a':
             keys.a.pressed = false
-            lastKey = 'a'
             break
+    }
+    switch (event.key) {
         case 'ArrowLeft':
             enemy.velocity.x = 0
             break
