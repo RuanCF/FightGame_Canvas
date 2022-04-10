@@ -10,53 +10,23 @@ ctx.fillRect(0, 0, canvas.width, canvas.height) //Desenho da tela
 
 const gravity = 0.3
 
-class Sprite {
-    constructor({
-        position,
-        velocity,
-        imageSrc
-    }) {
-        this.position = position
-        this.velocity = velocity
-        this.height = 100
-        //this.image = new Image()
-        //this.image.src = imageSrc
-    }
-    draw() {
-        ctx.fillStyle = 'red' //Define a cor do sprite
-        ctx.fillRect(this.position.x, this.position.y, 50, this.height) //Define tamanho do sprite
-        //ctx.drawImage(this.image, this.position.x, this.position.y)
-    }
-
-    update() { //atualiza os frame da posicao Y
-        this.draw()
-
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-
-        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-            this.velocity.y = 0
-        } else this.velocity.y += gravity
-    }
-} // << tranferir class Sprite para o classes.js
-
-/*const background = new Sprite({
+const background = new Sprite({
     position: {
       x: 0,
       y: 0
     },
     imageSrc: './imgs/background.png'
-  })*/
+  })
 
-const shop = new Sprite({
-    position: {
-        x: 600,
-        y: 128
-    },
+// const shop = new Sprite({
+//     position: {
+//         x: 600,
+//         y: 128
+//     },
     // imageSrc: './img/shop.png',
     // scale: 2.75,
     // framesMax: 6
-})
+//})
 
 const player = new Fighter({ //Criacao do player e posicao
     position: {
@@ -105,7 +75,9 @@ function animate() {
     ctx.fillStyle = '#20C4FA'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
-    shop.update()
+    //shop.update()
+    c.fillStyle = 'rgba(255, 255, 255, 0.15)'
+    c.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
     enemy.update()
 
